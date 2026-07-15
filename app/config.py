@@ -3,14 +3,11 @@ from pydantic import Field, field_validator
 
 
 class Config(BaseSettings):
-    # הגדרות הלוגר
     log_level: str = Field(default="INFO", alias="LOG_LEVEL")
-
-    # הגדרות עיבוד
     chunk_size: int = Field(default=10000, alias="CHUNK_SIZE")
     yellow_card_threshold: int = Field(default=5, alias="YELLOW_CARD_THRESHOLD")
+    number_of_matches: int = Field(default=100, alias="NUMBER_OF_MATCHES")
 
-    # נתיבים
     data_path: str = Field(default="data/league_matches.csv", alias="DATA_PATH")
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
