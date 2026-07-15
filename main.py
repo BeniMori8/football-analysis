@@ -1,16 +1,35 @@
-# This is a sample Python script.
+import pandas as pd
+import numpy as np
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+from app.proccessor import process_matches
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+def generate_football_data():
+    teams = ['Maccabi Tel Aviv', 'Haifa', 'Beitar', 'Hapoel', 'Ashdod', 'Netanya']
+    stadiums = ['Bloomfield', 'Sammy Ofer', 'Teddy', 'Turner']
+    data = {
+        'match_id': range(1, 1001),
+        'home_team': np.random.choice(teams, 1000),
+        'away_team': np.random.choice(teams, 1000),
+        'home_score': np.random.randint(0, 5, 1000),
+        'away_score': np.random.randint(0, 5, 1000),
+        'yellow_cards': np.random.randint(0, 8, 1000),
+        'stadium': np.random.choice(stadiums, 1000)
+    }
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    df = pd.DataFrame(data)
+
+    # "נלכלך" קצת את הנתונים לצורך הראיון
+    df.loc[0, 'home_score'] = -1  # שגיאה לוגית
+    df.loc[1, 'stadium'] = None  # ערך חסר
+    df.loc[2, 'yellow_cards'] = 50  # אנומליה
+    df.loc[2, ['home_team', 'away_team']] = 'Maccabi Tel Aviv'
+
+
+    df.to_csv('league_matches.csv', index=False)
+    print("✅ הקובץ league_matches.csv נוצר בהצלחה!")
+
+
+if __name__ == "__main__":
+        generate_football_data()
+        process_matches('league_matches.csv')
