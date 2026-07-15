@@ -1,12 +1,19 @@
 pipeline {
-    agent { docker { image 'python:3.14.6-alpine3.24' } }
+    agent {
+        docker { image 'python:3.14.6-alpine3.24' }
+    }
+
+    environment {
+        PROJECT_OWNER = 'Ben Mor'
+        APP_ENV       = 'Development'
+    }
+
     stages {
-        stage('Check Environment') {
+        stage('Print Env Variables') {
             steps {
-                echo '--- Starting environment checks inside the container ---'
-                sh 'python --version'
-                sh 'pip --version'
-                echo '--- All checks passed successfully! ---'
+                echo "Running Build number: ${env.BUILD_NUMBER}"
+                echo "This project belongs to: ${env.PROJECT_OWNER}"
+                sh "echo Running in environment: \$APP_ENV"
             }
         }
     }
